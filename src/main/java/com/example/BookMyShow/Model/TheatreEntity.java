@@ -1,6 +1,7 @@
 package com.example.BookMyShow.Model;
 
 import com.example.BookMyShow.enums.SeatType;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 import lombok.Setter;
@@ -21,14 +22,20 @@ public class TheatreEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private SeatType seatType;// two values classic or premium
+    @Column(name = "name", nullable = false)
     private String name;
-    private String address;
+
+    @Column(name = "city", nullable = false)
     private String city;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    List<ShowEntity> showEntityList;
+    @Column(name = "address", nullable = false)
+    private String address;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    List<TheatreSeatEntity> theatreSeatEntities;
+    @OneToMany(mappedBy = "theatre",cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<ShowEntity> shows;
+
+    @OneToMany(mappedBy = "theatre", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<TheatreSeatEntity> seats = new ArrayList<>();
 }
