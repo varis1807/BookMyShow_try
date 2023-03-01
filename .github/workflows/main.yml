@@ -1,37 +1,15 @@
-name: Java CI/CD
-
+name: Docker_Build
 on:
   push:
-    branches: [main]
+    branches: [ docker ]
   pull_request:
-    branches: [main]
+    branches: [ docker ]
 
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-
-    - name: Setup Java
-      uses: actions/setup-java@v1
-      with:
-        java-version: 11
-
-    - name: Build with Gradle
-      run: ./gradlew build
-
-    - name: Test with Gradle
-      run: ./gradlew test
-
-    - name: Deploy to staging
+    - uses: actions/checkout@v2
+    - name: Docker Build For food boot
       run: |
-        # replace with your actual deployment commands
-        echo "Deploying to staging..."
-
-    - name: Deploy to production
-      if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-      run: |
-        # replace with your actual deployment commands
-        echo "Deploying to production..."
+        docker build -t foot-boot/food-delivery-web-app:0.0.1
